@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>5.1.神经网络的 代价函数.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///e%3A/Documents/CSS%20Theme/gitbook/gitbook-teal.css" type="text/css">
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0">神经网络的代价函数</h1>
+<h2 id="%E5%9B%9E%E9%A1%BE">回顾</h2>
+<p>接下来的讲义主要考虑两种分类问题：第一种是二元分类，如之前的讲义所述，y的取值只能是0或者1，输出层只有一个输出单元，假设函数的输出值是一个实数；第二种是多元分类，y的取值是一个k维的向量，输出层有k个输出单元。</p>
+<h2 id="%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0%E5%BD%A2%E5%BC%8F">神经网络的代价函数形式</h2>
+<p>假设一个神经网络训练集有m个训练样本：${(x^{(1)},y^{(1)}),(x^{(2)},y^{(2)}),...,(x^{(m)},y^{(m)})}$<br>
+$L$表示神经网络的总层数，$s_l$表示$l$层中神经元的数量（不包括偏置神经元）。<br>
+在神经网络中使用的代价函数是在逻辑回归中使用的正则化代价函数：<br>
+$$J(θ)=-\frac{1}{m}[∑_{i=1}^m y^{(i)} log⁡(h_θ(x^{(i)} ))+(1−y^{(i)}) log(1−h_θ (x^{(i)}))]+\frac{λ}{2m}∑_{j=1}^n θ_j^2$$
+略微不同的是，在神经网络中分类标签和假设函数的输出值都变成了k维的向量，因此神经网络中的代价函数变成了：<br>
+$$J(θ)=-\frac{1}{m}[∑_{i=1}^m ∑_{k=1}^Ky_k^{(i)} log⁡(h_θ(x^{(i)} )<em>k)+(1−y_k^{(i)}) log(1−h_θ (x^{(i)})<em>k)]+\frac{λ}{2m}∑</em>{l=1}^{L-1}∑</em>{j=1}^{s_l}∑_{j=1}^{s_l+1} (Θ_{ji}^{(l)})_j^2$$<br>
+解释：</p>
+<ol>
+<li>用$(h_Θ(x))_i$来表示第i个输出</li>
+<li>这个代价函数中$∑_{k=1}^K$表示所有的输出单元之和，这里主要是将$y_k$的值与$(h_Θ(x))_k$的大小作比较</li>
+<li>正则项的作用是去除那些对应于偏置单元的项，具体而言就是不对$i=0$的项进行求和和正则化。</li>
+</ol>
+<h2 id="%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0%E6%9C%80%E5%B0%8F%E5%8C%96">代价函数最小化</h2>
+<p>同之前的线性回归和逻辑回归一样，接下来要求得代价函数的最小值$J(Θ)min$并求出$Θ$。主要的步骤是写出$J(Θ)$并求关于每一个$Θ_{ij}^{(l)}$的偏导项$\frac{∂}{∂Θ_{ij}^{(l)}}J(Θ)$。<br>
+<img src="https://raw.githubusercontent.com/l61012345/Pic/master/img/20210201185117.png" alt=""><br>
+现在先来讨论如上图所示的神经网络中，只有一个训练样本$(x,y)$的情况：<br>
+首先先用前向传播算法（见讲义4.2）验证假设函数是否会真的输出结果:<br>
+$$a^{(1)}=x$$<br>
+$$z^{(2)}=Θ^{(1)}a^{(1)},并增加一个偏置单元$$<br>
+$$a^{(2)}=g(z^{2})$$
+$$z^{(3)}=Θ^{(2)}a^{(2)},并增加一个偏置单元$$<br>
+$$a^{(3)}=g(z^{3})$$<br>
+$$z^{(4)}=Θ^{(3)}a^{(3)}$$<br>
+$$a^{(4)}=g(z^{4})=h_Θ(x)$$<br>
+接下来，为了计算关于每一个$Θ_{ij}^{(l)}$的偏导项$\frac{∂}{∂Θ_{ij}^{(l)}}J(Θ)$，就要用到<strong>反向传播算法</strong>（Backpropagation）。<br>
+从直观上说，对于每一个节点，都要计算每个节点的误差：$δ^{(l)}_j$,表示第l层第j个节点的误差。<br>
+$$δ^{(l)}_j=a_j^{(l)}-y_j=(h_Θ(x))<em>j-y_j$$<br>
+y表示训练集中y向量里的第j个元素的值。<br>
+其向量形式：<br>
+$$δ^{(l)}=a^{(l)}-y$$
+这里的$δ^{(l)}$和$a^{(l)}$都是一层每一个误差/输出所构成的向量。<br>
+具体而言，对于上图所示的4层（$L=4$）神经网络,第四层的误差项：<br>
+$$δ^{(4)}=a^{(4)}-y$$
+照例写出前面两层的误差：<br>
+$$\delta^{(3)}=(Θ^{(3)})^Tδ^{(4)}⋅g'(z^{(3)})$$
+$$\delta^{(2)}=(Θ^{(2)})^Tδ^{(3)}⋅g'(z^{(2)})$$
+事实上应用微积分的链式法则，$g'(z^{(3)})=a^{(3)}⋅(1-a^{(3)})$,1是一个每项都为1的向量。<br>
+反向传播的步骤相当于是从最后一层开始求误差，然后将最后一层的误差传给前一层，反向依次传播。<br>
+最终将会有：
+$$\frac{∂}{∂Θ</em>{ij}^{(l)}}J(Θ)=a^{(l)}_iδ^{(l+1)}_i$$
+此处忽略了正则化项：$λ$。<br>
+现在将反向传播算法从一个训练样本拓展到一个有m个训练样本：${(x^{(1)},y^{(1)}),(x^{(2)},y^{(2)}),...,(x^{(m)},y^{(m)})}$,$L$层的神经网络训练集：</p>
+<p>定义$Δ_{ij}^{(l)}=0$用于计算$\frac{∂}{∂Θ_{ij}^{(l)}}J(Θ)$,接下来遍历整个训练集：<br>
+For $i=1$ to $m$:<br>
+set $a^{(1)}=x^{(i)}$ #用于将所有的x输入到输入层的激活函数中<br>
+用正向传播算法计算$a^{(l)}~for~l=2,3,...,L$<br>
+$δ^{(L)}=a^{(L)}-y^{i}$ #计算最后一层的误差<br>
+用反向传播算法计算$\delta^{(L-1)}$到$δ^{(2)}$,<br>
+$Δ^{(l)}<em>{ij}:=Δ^{(l)}</em>{ij}+a_j^{(l)}δ^{(l+1)}<em>i$<br>
+(写成向量的形式：$Δ^{(l)}:=Δ^{(l)}+δ^{(l+1)}(a_j^{(l)})^T$)<br>
+结束循环后，<br>
+$$D^{(l)}</em>{ij}:=\begin{dcases}
+\frac{1}{m}Δ^{(l)}<em>{ij},j=0\ \
+\frac{1}{m}Δ^{(l)}</em>{ij}+λΘ^{(l)}<em>{ij},j \not=0
+\end{dcases}$$<br>
+那么最终：<br>
+$$\frac{∂}{∂Θ</em>{ij}^{(l)}}J(Θ)=D^{(l)}_{ij}$$</p>
+
+</body>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });</script>
+</html>
