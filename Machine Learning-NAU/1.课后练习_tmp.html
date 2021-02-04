@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>1.课后练习.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///e%3A/Documents/CSS%20Theme/gitbook/gitbook-teal.css" type="text/css">
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E8%AF%BE%E5%90%8E%E7%BB%83%E4%B9%A01">课后练习1</h1>
+<p>Solve the questions below by writing a Python function or script.</p>
+<h2 id="q1-add-up-the-numbers-from-100-to-200-and-output-their-sum-using-while-and-for-loops">Q1. Add up the numbers from 100 to 200 and output their sum, using while and for loops.</h2>
+<p>for loop:</p>
+<pre class="hljs"><code><div>total = <span class="hljs-number">0</span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">100</span>,<span class="hljs-number">201</span>): <span class="hljs-comment">#注意range不包括右边项</span>
+    total+=i
+print(<span class="hljs-string">"for loop sum:"</span>,total)    
+</div></code></pre>
+<p>while loop:</p>
+<pre class="hljs"><code><div>total=<span class="hljs-number">0</span>
+counter = <span class="hljs-number">100</span>
+<span class="hljs-keyword">while</span> counter &lt; <span class="hljs-number">201</span>:
+    total= total+counter <span class="hljs-comment">#++不能在python当中使用</span>
+    counter+=<span class="hljs-number">1</span> <span class="hljs-comment">#while 循环里面没有自增加</span>
+print(<span class="hljs-string">'for loop sum:'</span>,total)
+</div></code></pre>
+<h2 id="q2-read-a-string-from-console-and-output-its-length-swap-its-cases%E8%BD%AC%E6%8D%A2%E5%A4%A7%E5%B0%8F%E5%86%99-convert-it-to-lower-case-and-upper-case-and-reverse-it-hint-try-string-slice-with-step--1">Q2. Read a string from console and output its length, swap its cases（转换大小写）, convert it to lower case and upper case, and reverse it. (Hint: try string slice with step -1)</h2>
+<pre class="hljs"><code><div>s= input(<span class="hljs-string">"enter the string:"</span>)
+print(<span class="hljs-string">"the length of the string:"</span>,len(s))
+
+swap=str.swapcase(s) <span class="hljs-comment">#str.swapcase() 转换大小写</span>
+
+print(<span class="hljs-string">"swapcase is :"</span>,swap)
+print(<span class="hljs-string">"lowercase:"</span>,str.lower(s)) <span class="hljs-comment">#str.lower/upper()</span>
+print(<span class="hljs-string">"uppercase:"</span>,str.upper(s)) 
+
+print(<span class="hljs-string">"reverse order:"</span>,s[::<span class="hljs-number">-1</span>]) <span class="hljs-comment">#[起点:终点：步长]</span>
+</div></code></pre>
+<h2 id="q3-read-a-string-from-console-split-the-string-on-space-delimiter---and-join-using-a-hyphen">Q3. Read a string from console. Split the string on space delimiter (” ”) and join using a hyphen (”-”).</h2>
+<p>(Example: input the string, ”this-is a string” and output as ”this is-a-string”)</p>
+<pre class="hljs"><code><div>s=<span class="hljs-string">"hello world"</span>
+print(<span class="hljs-string">"replace:"</span>,str.replace(s,<span class="hljs-string">""</span>,<span class="hljs-string">"-"</span>)) <span class="hljs-comment">#str.replace(string,"","")交换前后元素</span>
+</div></code></pre>
+<h2 id="q4-learn-the-python-list-operations-and-follow-the-commands-below">Q4. Learn the Python list operations and follow the commands below:</h2>
+<ul>
+<li>Initialize an empty list L.</li>
+<li>Add 12, 8, 9 to the list.</li>
+<li>Insert 9 to the head of the list;</li>
+<li>Double the list. (e.g. change L = [1, 2, 3] to L = [1, 2, 3, 1, 2, 3])</li>
+<li>Remove all 8 in the list.</li>
+<li>Reverse the list.</li>
+</ul>
+<pre class="hljs"><code><div>L=[]
+print(L)
+
+L.append(<span class="hljs-number">12</span>) <span class="hljs-comment">#List.append() 列表在末尾添加</span>
+L.append(<span class="hljs-number">8</span>)
+L.append(<span class="hljs-number">9</span>)
+print(L)
+
+L.insert(<span class="hljs-number">0</span>,<span class="hljs-number">9</span>) <span class="hljs-comment">#list.insert(position,element) 在列表的指定位置添加一个元素</span>
+L=[<span class="hljs-number">9</span>]+L <span class="hljs-comment">#另一种方式</span>
+
+L=L+L
+print(L)
+L=L*<span class="hljs-number">2</span> <span class="hljs-comment">#另一种方法</span>
+L=L.extend(L) <span class="hljs-comment">#list.extend(list) 在列表的末尾添加一个列表</span>
+print(L)   
+
+number_eights=L.count(<span class="hljs-number">8</span>) 
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>,number_eight):
+    L.remove(<span class="hljs-number">8</span>)  <span class="hljs-comment">#list.remove(element) 在列表中移除第一个【element】元素</span>
+<span class="hljs-comment">#另一种解决办法</span>
+<span class="hljs-keyword">while</span> <span class="hljs-number">8</span> <span class="hljs-keyword">in</span> L:
+     L.remove(<span class="hljs-number">8</span>)
+
+L.reverse() <span class="hljs-comment">#list.reverse() 列表内倒序</span>
+print(L)
+</div></code></pre>
+<h1 id="q5-learn-python-matrix-operations-by-completing-the-following-tasks">Q5. Learn Python matrix operations by completing the following tasks:</h1>
+<ul>
+<li>Create a 3x2 matrix named A, with all ones.</li>
+<li>Create a 3x2 matrix named B, where $𝐵 =\begin{bmatrix}1&amp;2\
+3&amp;4\5&amp;6\end{bmatrix}$</li>
+<li>Print A and B.</li>
+<li>Transpose A to be a 2x3 matrix.</li>
+<li>Multiply matrix A with matrix B and store the output in matrix C.</li>
+<li>Print the dimensions of C.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np <span class="hljs-comment">#import packagename 加载库  import packagename as nickname 加载并替换库的名字</span>
+A=np.ones(<span class="hljs-number">3</span>,<span class="hljs-number">2</span>) <span class="hljs-comment">#numpy.ones(row,line)</span>
+print(A)  
+
+B=np.array([[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>],[<span class="hljs-number">3</span>,<span class="hljs-number">4</span>],[<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]]) <span class="hljs-comment">#numpy.array() 创建矩阵，用法同左边</span>
+print(B)
+
+print(A,B)
+
+A=A.reshape((<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)) <span class="hljs-comment">#numpy.reshape((row,line)) 重新改写矩阵的大小</span>
+A=np.transpose(A) <span class="hljs-comment">#numpy.transpose(matrix) 返回转置矩阵</span>
+print(A)
+
+C=A @ B <span class="hljs-comment">#@ 矩阵叉乘</span>
+print(C.shape) <span class="hljs-comment">#matrix.shape 矩阵的大小</span>
+</div></code></pre>
+<h1 id="q6-use-%F0%9D%91%80-for-the-following-tasks">Q6. Use 𝑀 for the following tasks,</h1>
+<p>$𝑀 =\begin{bmatrix}−2&amp;−4&amp;2\−2&amp;1&amp;2\4&amp;2&amp;5\end{bmatrix}$</p>
+<ul>
+<li>Calculate the eigenvalues and eigenvectors for M. (hint: use numpy.linalg.eig)</li>
+<li>Use matplotlib to plot the eigenvalues in a graph.</li>
+<li>Save the eigenvalues into a file named “eig.npy” (hint: use numpy.save).</li>
+<li>Load the saved file into a new variable called load_eig and print the values.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">from</span> matplotlib <span class="hljs-keyword">import</span> plot <span class="hljs-keyword">as</span> plt
+M=[[<span class="hljs-number">-1</span>,<span class="hljs-number">-4</span>,<span class="hljs-number">2</span>],[<span class="hljs-number">-2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>],[<span class="hljs-number">4</span>,<span class="hljs-number">2</span>,<span class="hljs-number">5</span>]]
+eignval,eignvect=np.linalg,eig(M) <span class="hljs-comment">#numpy.linalg,eig(Matrix) 返回两个值，第一个是特征值，第二个是特征向量</span>
+print(eignval)
+
+plt.plot(eignval)
+
+np.save(<span class="hljs-string">"eig"</span>,eigval) <span class="hljs-comment">#numpy.save("filename",value) 将值在当前目录下以“filename.npy”储存</span>
+
+load.eig=np.load(<span class="hljs-string">"eigval.npy"</span>) <span class="hljs-comment">#numpy.load("path") 返回加载的文件</span>
+</div></code></pre>
+
+</body>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });</script>
+</html>
